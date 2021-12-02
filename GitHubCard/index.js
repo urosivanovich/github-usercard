@@ -7,7 +7,7 @@ import axios from 'axios'
   
   axios.get('https://api.github.com/users/urosivanovich')
   .then(response =>{
-    createProfile(response.data)
+    const cardDiv = createAvatar(response);
     document.querySelector('.cards').appendChild(cardDiv)
   }).catch(error => {
     console.log(error)
@@ -60,7 +60,8 @@ const followersArray = [];
     </div>
 */
 
-function createProfile(obj){
+function createAvatar(obj){
+  console.log(obj)
   //creating elements
   const cardDiv = document.createElement('div');
   const img = document.createElement('img');
@@ -75,18 +76,22 @@ function createProfile(obj){
   const bioP = document.createElement('p');
   // setting class names, attributes and text
   cardDiv.classList.add('card');
-  img.src = obj.data.avatar_URL;
+  img.src = obj.data.avatar_url;
+  
+  console.log(img.src)
   cardInfoDiv.classList.add('card-info');
   nameH3.classList.add('name');
   nameH3.textContent = obj.data.name;
   userNameP.textContent = obj.data.login;
-  locationP.textContent = `Location ${obj.data.location}`;
+  locationP.textContent = `Location ${obj.location}`;
   profileP.textContent = `Profile`;
   anchorT.href = obj.data.html_url;
   anchorT.textContent = obj.data.html_url;
-  followersP = obj.data.followers_url;
-  followingP = obj.data.following_url;
-  bioP = obj.data.bio;
+  
+  followersP.textContent = obj.data.followers;
+  console.log(followersP)
+  followingP.textContent = obj.data.following;
+  bioP.textContent = obj.data.bio;
   // creating hierarchy
   cardDiv.appendChild(img);
   cardDiv.appendChild(cardInfoDiv);
@@ -99,7 +104,11 @@ function createProfile(obj){
   cardInfoDiv.appendChild(bioP);
   profileP.appendChild(anchorT);
 
+
+  
   return cardDiv;
+
+  
 }
 
 /*
