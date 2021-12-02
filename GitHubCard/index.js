@@ -1,15 +1,16 @@
 import axios from 'axios'
-
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+  
   axios.get('https://api.github.com/users/urosivanovich')
   .then(response =>{
-
+    createProfile(response.data)
+    document.querySelector('.cards').appendChild(cardDiv)
   }).catch(error => {
-
+    console.log(error)
   }).finally(()=>{
     console.log('doo doo')
   })
@@ -58,6 +59,48 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function createProfile(obj){
+  //creating elements
+  const cardDiv = document.createElement('div');
+  const img = document.createElement('img');
+  const cardInfoDiv = document.createElement('div');
+  const nameH3 = document.createElement('h3');
+  const userNameP = document.createElement('p');
+  const locationP = document.createElement('p');
+  const profileP = document.createElement('p');
+  const anchorT = document.createElement('a');
+  const followersP = document.createElement('p');
+  const followingP = document.createElement('p');
+  const bioP = document.createElement('p');
+  // setting class names, attributes and text
+  cardDiv.classList.add('card');
+  img.src = obj.data.avatar_URL;
+  cardInfoDiv.classList.add('card-info');
+  nameH3.classList.add('name');
+  nameH3.textContent = obj.data.name;
+  userNameP.textContent = obj.data.login;
+  locationP.textContent = `Location ${obj.data.location}`;
+  profileP.textContent = `Profile`;
+  anchorT.href = obj.data.html_url;
+  anchorT.textContent = obj.data.html_url;
+  followersP = obj.data.followers_url;
+  followingP = obj.data.following_url;
+  bioP = obj.data.bio;
+  // creating hierarchy
+  cardDiv.appendChild(img);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(nameH3);
+  cardInfoDiv.appendChild(userNameP);
+  cardInfoDiv.appendChild(locationP);
+  cardInfoDiv.appendChild(profileP);
+  cardInfoDiv.appendChild(followersP);
+  cardInfoDiv.appendChild(followingP);
+  cardInfoDiv.appendChild(bioP);
+  profileP.appendChild(anchorT);
+
+  return cardDiv;
+}
 
 /*
   List of LS Instructors Github username's:
