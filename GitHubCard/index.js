@@ -38,7 +38,11 @@ import axios from 'axios'
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [ 'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -111,6 +115,16 @@ function createAvatar(obj){
   
 }
 
+
+followersArray.forEach(e => {
+  axios.get(`https://api.github.com/users/${e}`)
+  .then(response =>{
+    const cardDiv = createAvatar(response);
+    document.querySelector('.cards').appendChild(cardDiv)
+  })
+})
+
+
 /*
   List of LS Instructors Github username's:
     tetondan
@@ -119,3 +133,7 @@ function createAvatar(obj){
     luishrd
     bigknell
 */
+
+
+// move your axios call with alal of the code with it into a new fucntrion getUsre
+//update axios xall to interoplate isntea dof hard code username 
