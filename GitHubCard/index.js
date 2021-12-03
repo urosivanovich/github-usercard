@@ -1,9 +1,19 @@
+import axios from 'axios'
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+  
+  axios.get('https://api.github.com/users/urosivanovich')
+  .then(response =>{
+    const cardDiv = createAvatar(response);
+    document.querySelector('.cards').appendChild(cardDiv)
+  }).catch(error => {
+    console.log(error)
+  }).finally(()=>{
+    console.log('doo doo')
+  })
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +38,11 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [ 'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -50,6 +64,71 @@ const followersArray = [];
     </div>
 */
 
+function createAvatar(obj){
+  console.log(obj)
+  //creating elements
+  const cardDiv = document.createElement('div');
+  const img = document.createElement('img');
+  const cardInfoDiv = document.createElement('div');
+  const nameH3 = document.createElement('h3');
+  const userNameP = document.createElement('p');
+  const locationP = document.createElement('p');
+  const profileP = document.createElement('p');
+  const anchorT = document.createElement('a');
+  const followersP = document.createElement('p');
+  const followingP = document.createElement('p');
+  const bioP = document.createElement('p');
+  // setting class names, attributes and text
+  cardDiv.classList.add('card');
+  img.src = obj.data.avatar_url;
+  
+  console.log(img.src)
+  cardInfoDiv.classList.add('card-info');
+  nameH3.classList.add('name');
+  nameH3.textContent = obj.data.name;
+  userNameP.textContent = obj.data.login;
+  locationP.textContent = `Location ${obj.location}`;
+  profileP.textContent = `Profile`;
+  anchorT.href = obj.data.html_url;
+  anchorT.textContent = obj.data.html_url;
+  
+  followersP.textContent = obj.data.followers;
+  console.log(followersP)
+  followingP.textContent = obj.data.following;
+  bioP.textContent = obj.data.bio;
+  // creating hierarchy
+  cardDiv.appendChild(img);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(nameH3);
+  cardInfoDiv.appendChild(userNameP);
+  cardInfoDiv.appendChild(locationP);
+  cardInfoDiv.appendChild(profileP);
+  cardInfoDiv.appendChild(followersP);
+  cardInfoDiv.appendChild(followingP);
+  cardInfoDiv.appendChild(bioP);
+  profileP.appendChild(anchorT);
+
+
+  
+  return cardDiv;
+
+  
+}
+
+
+followersArray.forEach(e => {
+  axios.get(`https://api.github.com/users/${e}`)
+  .then(response =>{
+    const cardDiv = createAvatar(response);
+    document.querySelector('.cards').appendChild(cardDiv)
+  }).catch( error => {
+    console.log(error)
+  }).finally(()=>{
+    console.log('doo doo')
+  })
+})
+
+
 /*
   List of LS Instructors Github username's:
     tetondan
@@ -58,3 +137,7 @@ const followersArray = [];
     luishrd
     bigknell
 */
+
+
+// move your axios call with alal of the code with it into a new fucntrion getUsre
+//update axios xall to interoplate isntea dof hard code username 
