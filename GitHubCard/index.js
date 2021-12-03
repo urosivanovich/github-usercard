@@ -121,6 +121,10 @@ followersArray.forEach(e => {
   .then(response =>{
     const cardDiv = createAvatar(response);
     document.querySelector('.cards').appendChild(cardDiv)
+  }).catch( error => {
+    console.log(error)
+  }).finally(()=>{
+    console.log('doo doo')
   })
 })
 
